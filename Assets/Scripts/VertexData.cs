@@ -30,22 +30,23 @@ public class VertexData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnBeginDrag(PointerEventData eventData)
     {
         itemBeingDragged = this.gameObject;
-        startPosition = _rectTrans.position;
+        startPosition = _rectTrans.localPosition;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        _rectTrans.position = Input.mousePosition;
+        Debug.Log(Input.mousePosition);
+        _rectTrans.localPosition = Input.mousePosition - new Vector3(parentCanvas.pixelRect.width * 0.5f, parentCanvas.pixelRect.height * 0.5f, 0.0f);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         itemBeingDragged = null;
 
-        if (_rectTrans.position.y > parentCanvas.pixelRect.yMin && _rectTrans.position.y < parentCanvas.pixelRect.yMax
-            && _rectTrans.position.x > parentCanvas.pixelRect.xMin && _rectTrans.position.x < parentCanvas.pixelRect.xMax)
-            return;
-        else
-            _rectTrans.position = startPosition;
+        //if (_rectTrans.position.y > parentCanvas.pixelRect.yMin && _rectTrans.position.y < parentCanvas.pixelRect.yMax
+        //    && _rectTrans.position.x > parentCanvas.pixelRect.xMin && _rectTrans.position.x < parentCanvas.pixelRect.xMax)
+        //    return;
+        //else
+        //    _rectTrans.position = startPosition;
     }
 }

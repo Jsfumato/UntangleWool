@@ -47,21 +47,6 @@ public class UntangleManager : MonoBehaviour
 
     }
 
-    //void SetVertex(int vertexCount)
-    //{
-    //    verticesData.Clear();
-        
-    //    for(int i = 0; i < vertexCount; ++i)
-    //    {
-    //        VertexData newVertex = Instantiate(dummyVertex) as VertexData;
-    //        newVertex._vertexId = vertexId++;
-    //        newVertex.transform.SetParent(gameCanvas.transform, false);
-    //        newVertex.parentCanvas = gameCanvas;
-
-    //        verticesData.Add(newVertex._vertexId, Tuple.Create(newVertex, new List<int>()));
-    //    }
-    //}
-
     void DrawLine()
     {
         foreach (int vDataID in verticesData.Keys) {
@@ -102,9 +87,7 @@ public class UntangleManager : MonoBehaviour
 
     public void ImportVerticesData(int stageID)
     {
-        //string text = Utility <string>("VerticesData.xml");
         var data = Resources.Load<TextAsset>("VerticesData");
-
         var doc = XDocument.Parse(data.text);
 
         var stageData = doc.Element("Stages");
@@ -122,10 +105,16 @@ public class UntangleManager : MonoBehaviour
                 newVertex.RectTransform.SetParent(gameCanvas.transform, false);
 
                 XElement posNode = vertex.Element("Position");
-                Vector3 pos = new Vector3(posNode.GetAttributeFloat("x"), posNode.GetAttributeFloat("y"), posNode.GetAttributeFloat("z"));
-                newVertex.GetComponent<RectTransform>().position = pos;
-                newVertex.parentCanvas = gameCanvas;
+                Vector3 viewportPos = new Vector3(posNode.GetAttributeFloat("x"), posNode.GetAttributeFloat("y"), posNode.GetAttributeFloat("z"));
 
+                Debug.Log(viewportPos);
+                Vector3 worldPos = 
+                    gameCanvas.worldCamera.ViewportToScreenPoint(viewportPos)
+                    - new Vector3(gameCanvas.pixelRect.width * 0.5f, gameCanvas.pixelRect.height * 0.5f, 0.0f);
+                Debug.Log(worldPos);
+                newVertex.GetComponent<RectTransform>().localPosition = worldPos;
+
+                newVertex.parentCanvas = gameCanvas;
                 verticesData.Add(newVertex._vertexId, Tuple.Create(newVertex, new List<int>()));
 
                 // Set Linked Vetices
@@ -135,21 +124,9 @@ public class UntangleManager : MonoBehaviour
         }
     }
 }
+
 public static class ResourceExtensions
 {
-    //public static long GetAttributeLong(this XElement element, string AttrName, long defaultValue = long.MinValue)
-    //{
-    //    if (element.Attribute(AttrName) == null)
-    //        return defaultValue;
-
-    //    long ret;
-    //    if (long.TryParse(element.Attribute(AttrName).Value, out ret) == false)
-    //        return defaultValue;
-
-    //    return ret;
-    //}
-
-
     public static long GetAttributeLong(this XElement element, string AttrName, long defaultValue = long.MinValue)
     {
         if (element.Attribute(AttrName) == null)
@@ -183,6 +160,10 @@ public class UntangleManager_Editor : Editor
 {
     UntangleManager _uManager;
 
+    private int _mapID;
+    private string _mapName;
+    private string _mapDesc;
+
     void OnEnable()
     {
         _uManager = target as UntangleManager;
@@ -192,107 +173,69 @@ public class UntangleManager_Editor : Editor
     {
         DrawDefaultInspector();
 
+        GUILayout.Space(30);
+
+        _mapID = EditorGUILayout.IntField("mapID", _mapID);
+        _mapName = EditorGUILayout.TextField("mapName", _mapName);
+        _mapDesc = EditorGUILayout.TextField("mapDesc", _mapDesc);
+
+        if (GUILayout.Button("Export Map")) {
+            if (ExportMap(_mapID, _mapName, _mapDesc, _uManager.verticesData) == false)
+                Debug.LogWarning("Fail to Export Data [MapID is Duplicated]");
+        }
     }
 
-    private void AddQuest()
+    private bool ExportMap(int mapID, string mapName, string mapDesc, VecticesDataDictionary dict)
     {
-        //XElement qElement = new XElement("Quest", new XAttribute("ID", -1),
-        //    new XElement("Name", ""),
-        //    new XElement("Desc", ""),
-        //    new XElement("NPC", 100),
-        //    new XElement("Conversation",
-        //        new XElement("Start", new XAttribute("Count", 0)),
-        //        new XElement("Accept", new XAttribute("Count", 0)),
-        //        new XElement("Deny", new XAttribute("Count", 0)),
-        //        new XElement("Complete", new XAttribute("Count", 0))),
-        //    new XElement("Condition", new XAttribute("Count", 0)),
-        //    new XElement("Objective", new XAttribute("Type", 0),
-        //        new XElement("ID", 0),
-        //        new XElement("Count", 0)),
-        //    new XElement("Rewards", new XAttribute("Count", 0)));
+        var data = Resources.Load<TextAsset>("VerticesData");
+        var doc = XDocument.Parse(data.text);
 
-    }
+        var stageData = doc.Element("Stages");
+        //bool _find = false;
+        foreach (var innnerStage in stageData.Elements("Stage"))
+        {
+            if (innnerStage.GetAttributeLong("ID") != mapID)
+                continue;
 
-    private void RemoveQuest(int questID) 
-    {
-        //if (_qManager._resQuestList.Where(x => (int)x.id == questID).ToList().Count <= 0)
-        //    Debug.LogError("There is no Quest");
+            return false;
+            //_find = true;
+        }
 
-        //ResourceQuest resQ = _qManager._resQuestList.Find(x => (int)x.id == questID);
-        //_qManager._resQuestList.Remove(resQ);
-    }
-
-
-    private void ExportTutorialXmlFile(string fileName)
-    {
-        //XElement doc = new XElement("Quests");
-
-        //foreach (var quest in _qManager._resQuestList)
+        //if(_find == false)
         //{
-        //    XElement qElement = new XElement("Quest", new XAttribute("ID", quest.id),
-        //        new XElement("Name", quest.name),
-        //        new XElement("Desc", quest.desc),
-        //        new XElement("NPC", quest.npcId),
-        //        new XElement("Conversation",
-        //            new XElement("Start", new XAttribute("Count", quest.startConversation.Count)),
-        //            new XElement("Accept", new XAttribute("Count", quest.acceptConversation.Count)),
-        //            new XElement("Deny", new XAttribute("Count", quest.denyConversation.Count)),
-        //            new XElement("Complete", new XAttribute("Count", quest.completeConversation.Count))),
-        //        new XElement("Condition", new XAttribute("Count", quest.conditionList.Count)),
-        //        new XElement("Objective", new XAttribute("Type", quest.objective.Value1)),
-        //        new XElement("Rewards", new XAttribute("Count", quest.rewards.Count))
-        //        );
+        XElement stage = new XElement("Stage");
 
-        //    // Add texts in conversation
-        //    foreach (var tplLongString in quest.startConversation)
-        //        qElement.Descendants("Start").First().Add(new XElement("Text", tplLongString.Value2, new XAttribute("Speaker", tplLongString.Value1)));
-        //    foreach (var tplLongString in quest.acceptConversation)
-        //        qElement.Descendants("Accept").First().Add(new XElement("Text", tplLongString.Value2, new XAttribute("Speaker", tplLongString.Value1)));
-        //    foreach (var tplLongString in quest.denyConversation)
-        //        qElement.Descendants("Deny").First().Add(new XElement("Text", tplLongString.Value2, new XAttribute("Speaker", tplLongString.Value1)));
-        //    foreach (var tplLongString in quest.completeConversation)
-        //        qElement.Descendants("Complete").First().Add(new XElement("Text", tplLongString.Value2, new XAttribute("Speaker", tplLongString.Value1)));
+        stage.Add(
+            new XElement("Name"),
+            new XElement("Desc"),
+            new XElement("Vertices")
+            );
 
-        //    // Set Condition
-        //    var cElement = qElement.Descendants("Condition").First();
-        //    foreach (var subconditionList in quest.conditionList)
-        //    {
-        //        var element = new XElement("Subcondition");
-        //        for (int i = 0; i < subconditionList.Count; ++i)
-        //        {
-        //            var conType = subconditionList[i].param1;
-        //            element.Add(new XElement("Param",
-        //                new XAttribute("Type", conType),
-        //                new XAttribute("Param1", subconditionList[i].param2),
-        //                new XAttribute("Param2", subconditionList[i].param3)));
-        //        }
-        //        cElement.Add(element);
-        //    }
+        XElement vertices = stage.Element("Vertices");
+        foreach (Tuple<VertexData, List<int>> tplData in dict.Values)
+        {
+            Vector3 viewportPoint = _uManager.gameCanvas.worldCamera.ScreenToViewportPoint(tplData.Item1.RectTransform.position);
+            Debug.Log(viewportPoint);
 
-        //    // Set Objective
-        //    if (quest.objective.Value1 == ResourceQuest.ObjectiveType.MOVE_TO_MAP)
-        //        qElement.Descendants("Objective").First().Add(new XElement("ID", quest.objective.Value2), new XElement("IsForced", quest.objective.Value3 != 0 ? bool.TrueString : bool.FalseString));
-        //    else
-        //        qElement.Descendants("Objective").First().Add(new XElement("ID", quest.objective.Value2), new XElement("Count", quest.objective.Value3));
-        //    qElement.Descendants("Objective").First().SetAttributeValue("Type", quest.objective.Value1);
+            var element = new XElement("Vertex",
+                    new XAttribute("ID", tplData.Item1._vertexId),
+                    new XElement("Position",
+                        new XAttribute("x", viewportPoint.x),
+                        new XAttribute("y", viewportPoint.y),
+                        new XAttribute("z", viewportPoint.z)),
+                    new XElement("LinkedIDs"));
 
-        //    // Add Rewards
-        //    for (int i = 0; i < quest.rewards.Keys.Count; ++i)
-        //    {
-        //        var rewardID = quest.rewards.Keys[i];
-        //        var rewardParam = quest.rewards.Values[i];
+            foreach (int id in tplData.Item2)
+            {
+                element.Element("LinkedIDs").Add(new XElement("ID", id));
+            }
+        }
 
-        //        qElement.Descendants("Rewards").First().Add(
-        //            new XElement("Reward", rewardParam, new XAttribute("ID", rewardID)));
-        //    }
+        stageData.Add(stage);
 
-        //    doc.Add(qElement);
-        //}
-
-        //string path = string.Format("{0}/PatchResources/{1}.xml", Application.dataPath, fileName);
-        //doc.Save(path);
-
-        //Debug.Log(string.Format("Saved at {0}", path));
+        doc.Save("VerticesData.xml");
+        return true;
     }
+    
 }
 #endif

@@ -1,8 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Stages>
   <Stage ID="1001">
     <Name>TestMap_01</Name>
     <Desc>테스트 맵입니다.</Desc>
-    
     <Vertices>
       <Vertex ID="1">
         <Position x="0.5" y="0.5" z="0.0" />
@@ -11,7 +11,6 @@
           <ID>4</ID>
         </LinkedIDs>
       </Vertex>
-
       <Vertex ID="2">
         <Position x="0.5" y="0.5" z="0.0" />
         <LinkedIDs>
@@ -19,7 +18,6 @@
           <ID>3</ID>
         </LinkedIDs>
       </Vertex>
-
       <Vertex ID="3">
         <Position x="0.5" y="0.5" z="0.0" />
         <LinkedIDs>
@@ -27,7 +25,6 @@
           <ID>4</ID>
         </LinkedIDs>
       </Vertex>
-
       <Vertex ID="4">
         <Position x="0.5" y="0.5" z="0.0" />
         <LinkedIDs>
@@ -36,5 +33,10 @@
         </LinkedIDs>
       </Vertex>
     </Vertices>
+  </Stage>
+  <Stage>
+    <Name />
+    <Desc />
+    <Vertices />
   </Stage>
 </Stages>
