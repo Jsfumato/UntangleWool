@@ -42,7 +42,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 11
+  serializedVersion: 9
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 9
+    serializedVersion: 8
     m_Resolution: 2
     m_BakeResolution: 40
     m_TextureWidth: 1024
@@ -87,7 +87,7 @@ LightmapSettings:
     m_PVRFilteringAtrousNormalSigma: 1
     m_PVRFilteringAtrousPositionSigma: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_ShadowMaskMode: 2
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 744485514}
   - component: {fileID: 744485513}
   - component: {fileID: 744485512}
+  - component: {fileID: 744485516}
   m_Layer: 5
   m_Name: Canvas_10_main
   m_TagString: Untagged
@@ -201,6 +202,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &744485516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 744485511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 125229baeaaf09548a93940c6824ecfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapID: 1001
+  vertexCount: 2
+  dummyVertex: {fileID: 114466939740880504, guid: ce0dd3d6a8cdbdc43a3b06d40b15d7be,
+    type: 2}
+  dummyLine: {fileID: 1138427283256110, guid: f650ac99bff25ce41906c7fcf6eed302, type: 2}
+  gameCanvas: {fileID: 744485514}
+  verticesData:
+    keys: 
 --- !u!1 &802090700
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,7 +318,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 918762977}
-  - component: {fileID: 918762976}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -306,22 +325,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &918762976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 918762975}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 125229baeaaf09548a93940c6824ecfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vertexCount: 2
-  dummyVertex: {fileID: 114466939740880504, guid: ce0dd3d6a8cdbdc43a3b06d40b15d7be,
-    type: 2}
-  dummyLine: {fileID: 1593134477730894, guid: a5a98a9d090e13a48a6d2adec8ab8476, type: 2}
-  gameCanvas: {fileID: 744485514}
 --- !u!4 &918762977
 Transform:
   m_ObjectHideFlags: 0

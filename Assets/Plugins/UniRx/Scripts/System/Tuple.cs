@@ -206,7 +206,7 @@ namespace UniRx
     }
 
     [Serializable]
-    public struct Tuple<T1, T2> : IStructuralEquatable, IStructuralComparable, IComparable, ITuple, IEquatable<Tuple<T1, T2>>
+    public class Tuple<T1, T2> : IStructuralEquatable, IStructuralComparable, IComparable, ITuple, IEquatable<Tuple<T1, T2>>
     {
         T1 item1;
         T2 item2;

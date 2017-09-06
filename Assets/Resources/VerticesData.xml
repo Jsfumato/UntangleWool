@@ -1,0 +1,40 @@
+<Stages>
+  <Stage ID="1001">
+    <Name>TestMap_01</Name>
+    <Desc>테스트 맵입니다.</Desc>
+    
+    <Vertices>
+      <Vertex ID="1">
+        <Position x="100.0" y="100.0" z="0.0" />
+        <LinkedIDs>
+          <ID>2</ID>
+          <ID>4</ID>
+        </LinkedIDs>
+      </Vertex>
+
+      <Vertex ID="2">
+        <Position x="100.0" y="-100.0" z="0.0" />
+        <LinkedIDs>
+          <ID>1</ID>
+          <ID>3</ID>
+        </LinkedIDs>
+      </Vertex>
+
+      <Vertex ID="3">
+        <Position x="-100.0" y="-100.0" z="0.0" />
+        <LinkedIDs>
+          <ID>2</ID>
+          <ID>4</ID>
+        </LinkedIDs>
+      </Vertex>
+
+      <Vertex ID="4">
+        <Position x="-100.0" y="100.0" z="0.0" />
+        <LinkedIDs>
+          <ID>1</ID>
+          <ID>3</ID>
+        </LinkedIDs>
+      </Vertex>
+    </Vertices>
+  </Stage>
+</Stages>
