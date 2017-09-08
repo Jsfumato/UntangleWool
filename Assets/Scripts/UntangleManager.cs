@@ -11,9 +11,6 @@ using System.Linq;
 using UnityEditor;
 #endif
 
-[Serializable]
-public class VecticesDataDictionary : SerializableDictionary<int, Tuple<VertexData, List<int>>> { }
-
 public class UntangleManager : MonoBehaviour
 {
     public int mapID = 1001;
@@ -118,7 +115,7 @@ public class UntangleManager : MonoBehaviour
                 newVertex.parentCanvas = gameCanvas;
                 verticesData.Add(newVertex._vertexId, Tuple.Create(newVertex, new List<int>()));
 
-                // Set Linked Vetices
+                // Set Linked Veticesj
                 foreach (var linkedID in vertex.Element("LinkedIDs").Elements("ID"))
                     verticesData[newVertex._vertexId].Item2.Add(int.Parse(linkedID.Value));
             }
@@ -140,6 +137,25 @@ public class UntangleManager : MonoBehaviour
 
         isSelected = false;
         selectedID = -1;
+    }
+}
+
+public static class XElementExtensions
+{
+    public static XmlNode ToXmlNode(this XElement element)
+    {
+        if (element == null)
+            return null;
+
+        XmlNode node = null;
+        using (var reader = element.CreateReader())
+        {
+            var xml = new XmlDocument();
+            xml.Load(reader);
+
+            node = xml.DocumentElement;
+        }
+        return node;
     }
 }
 
@@ -223,9 +239,9 @@ public class UntangleManager_Editor : Editor
         //{
         XElement stage = new XElement("Stage");
 
-        stage.Add(
-            new XElement("Name"),
-            new XElement("Desc"),
+        stage.Add( new XAttribute("ID", mapID),
+            new XElement("Name", mapName),
+            new XElement("Desc", mapDesc),
             new XElement("Vertices")
             );
 
@@ -235,7 +251,7 @@ public class UntangleManager_Editor : Editor
             Vector3 viewportPoint = _uManager.gameCanvas.worldCamera.ScreenToViewportPoint(tplData.Item1.RectTransform.position);
             Debug.Log(viewportPoint);
 
-            var element = new XElement("Vertex",
+            var vertex = new XElement("Vertex",
                     new XAttribute("ID", tplData.Item1._vertexId),
                     new XElement("Position",
                         new XAttribute("x", viewportPoint.x),
@@ -244,14 +260,17 @@ public class UntangleManager_Editor : Editor
                     new XElement("LinkedIDs"));
 
             foreach (int id in tplData.Item2)
-            {
-                element.Element("LinkedIDs").Add(new XElement("ID", id));
-            }
+                vertex.Element("LinkedIDs").Add(new XElement("ID", id));
+
+            vertices.Add(vertex);
         }
 
         stageData.Add(stage);
 
-        doc.Save("VerticesData.xml");
+        string path = string.Format("{0}/Resources/{1}.xml", Application.dataPath, "VerticesData");
+        doc.Save(path);
+        Debug.Log(string.Format("Saved at {0}", path));
+
         return true;
     }
     

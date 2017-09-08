@@ -13,7 +13,7 @@ public class VertexData : MonoBehaviour, IPointerClickHandler, IBeginDragHandler
     private RectTransform _rectTrans;
     private Vector3 startPosition;
 
-    public UntangleManager uManager;
+    public UntangleMapMaker uManager;
 
     public RectTransform RectTransform
     {
@@ -58,7 +58,14 @@ public class VertexData : MonoBehaviour, IPointerClickHandler, IBeginDragHandler
         if (eventData.button != PointerEventData.InputButton.Right)
             return;
 
+        if (uManager == null)
+            uManager = parentCanvas.GetComponent<UntangleMapMaker>();
+
         if (uManager.isSelected == true)
             uManager.LinkNodes(_vertexId, uManager.selectedID);
+        else {
+            uManager.isSelected = true;
+            uManager.selectedID = _vertexId;
+        }
     }
 }

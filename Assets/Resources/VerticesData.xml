@@ -1,8 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Stages>
   <Stage ID="1001">
     <Name>TestMap_01</Name>
     <Desc>테스트 맵입니다.</Desc>
-    
     <Vertices>
       <Vertex ID="1">
         <Position x="0.5" y="0.5" z="0.0" />
@@ -11,7 +11,6 @@
           <ID>4</ID>
         </LinkedIDs>
       </Vertex>
-
       <Vertex ID="2">
         <Position x="0.5" y="0.5" z="0.0" />
         <LinkedIDs>
@@ -19,7 +18,6 @@
           <ID>3</ID>
         </LinkedIDs>
       </Vertex>
-
       <Vertex ID="3">
         <Position x="0.5" y="0.5" z="0.0" />
         <LinkedIDs>
@@ -27,9 +25,168 @@
           <ID>4</ID>
         </LinkedIDs>
       </Vertex>
-
       <Vertex ID="4">
         <Position x="0.5" y="0.5" z="0.0" />
+        <LinkedIDs>
+          <ID>1</ID>
+          <ID>3</ID>
+        </LinkedIDs>
+      </Vertex>
+    </Vertices>
+  </Stage>
+  <Stage ID="1002">
+    <Name>asdf</Name>
+    <Desc>test</Desc>
+    <Vertices>
+      <Vertex ID="0">
+        <Position x="0.000347222231" y="0.000354003918" z="90" />
+        <LinkedIDs>
+          <ID>2</ID>
+          <ID>1</ID>
+          <ID>3</ID>
+        </LinkedIDs>
+      </Vertex>
+      <Vertex ID="1">
+        <Position x="0.00179036462" y="-0.000128173822" z="90" />
+        <LinkedIDs>
+          <ID>0</ID>
+          <ID>2</ID>
+        </LinkedIDs>
+      </Vertex>
+      <Vertex ID="2">
+        <Position x="0.00116102432" y="-0.00128784182" z="90" />
+        <LinkedIDs>
+          <ID>0</ID>
+          <ID>3</ID>
+          <ID>1</ID>
+        </LinkedIDs>
+      </Vertex>
+      <Vertex ID="3">
+        <Position x="-0.000813802064" y="-0.00131225586" z="90" />
+        <LinkedIDs>
+          <ID>2</ID>
+          <ID>0</ID>
+        </LinkedIDs>
+      </Vertex>
+    </Vertices>
+  </Stage>
+  <Stage ID="1003">
+    <Name>asdf</Name>
+    <Desc>test</Desc>
+    <Vertices>
+      <Vertex ID="0">
+        <Position x="0.000347222231" y="0.000354003918" z="90" />
+        <LinkedIDs>
+          <ID>2</ID>
+          <ID>1</ID>
+          <ID>3</ID>
+        </LinkedIDs>
+      </Vertex>
+      <Vertex ID="1">
+        <Position x="0.00179036462" y="-0.000128173822" z="90" />
+        <LinkedIDs>
+          <ID>0</ID>
+          <ID>2</ID>
+        </LinkedIDs>
+      </Vertex>
+      <Vertex ID="2">
+        <Position x="0.00116102432" y="-0.00128784182" z="90" />
+        <LinkedIDs>
+          <ID>0</ID>
+          <ID>3</ID>
+          <ID>1</ID>
+        </LinkedIDs>
+      </Vertex>
+      <Vertex ID="3">
+        <Position x="-0.000813802064" y="-0.00131225586" z="90" />
+        <LinkedIDs>
+          <ID>2</ID>
+          <ID>0</ID>
+        </LinkedIDs>
+      </Vertex>
+    </Vertices>
+  </Stage>
+  <Stage ID="11">
+    <Name>fasdasdf</Name>
+    <Desc>fdsasdfa</Desc>
+    <Vertices>
+      <Vertex ID="0">
+        <Position x="0.000694444461" y="0.000390625" z="0" />
+        <LinkedIDs />
+      </Vertex>
+      <Vertex ID="1">
+        <Position x="0.000694444461" y="0.000390625" z="0" />
+        <LinkedIDs />
+      </Vertex>
+      <Vertex ID="2">
+        <Position x="0.000694444461" y="0.000390625" z="0" />
+        <LinkedIDs />
+      </Vertex>
+    </Vertices>
+  </Stage>
+  <Stage ID="142">
+    <Name>sadf</Name>
+    <Desc>afsd</Desc>
+    <Vertices>
+      <Vertex ID="0">
+        <Position x="0.575" y="0.565625" z="0" />
+        <LinkedIDs>
+          <ID>2</ID>
+          <ID>1</ID>
+        </LinkedIDs>
+      </Vertex>
+      <Vertex ID="1">
+        <Position x="0.7861111" y="0.28125" z="0" />
+        <LinkedIDs>
+          <ID>0</ID>
+          <ID>2</ID>
+        </LinkedIDs>
+      </Vertex>
+      <Vertex ID="2">
+        <Position x="0.243055552" y="0.36875" z="0" />
+        <LinkedIDs>
+          <ID>0</ID>
+          <ID>1</ID>
+        </LinkedIDs>
+      </Vertex>
+    </Vertices>
+  </Stage>
+  <Stage ID="145">
+    <Name />
+    <Desc />
+    <Vertices>
+      <Vertex ID="0">
+        <Position x="0.575" y="0.565625" z="0" />
+        <LinkedIDs>
+          <ID>2</ID>
+          <ID>1</ID>
+        </LinkedIDs>
+      </Vertex>
+      <Vertex ID="1">
+        <Position x="0.7861111" y="0.28125" z="0" />
+        <LinkedIDs>
+          <ID>0</ID>
+          <ID>2</ID>
+          <ID>4</ID>
+          <ID>3</ID>
+        </LinkedIDs>
+      </Vertex>
+      <Vertex ID="2">
+        <Position x="0.243055552" y="0.36875" z="0" />
+        <LinkedIDs>
+          <ID>0</ID>
+          <ID>1</ID>
+        </LinkedIDs>
+      </Vertex>
+      <Vertex ID="3">
+        <Position x="0.6666667" y="0.15" z="0" />
+        <LinkedIDs>
+          <ID>1</ID>
+          <ID>4</ID>
+        </LinkedIDs>
+      </Vertex>
+      <Vertex ID="4">
+        <Position x="0.406944454" y="0.1703125" z="0" />
         <LinkedIDs>
           <ID>1</ID>
           <ID>3</ID>
