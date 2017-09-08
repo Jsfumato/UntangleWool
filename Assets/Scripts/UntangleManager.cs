@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UniRx;
 using System.Xml.Linq;
 using System.Xml;
+using System.Linq;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -122,6 +123,23 @@ public class UntangleManager : MonoBehaviour
                     verticesData[newVertex._vertexId].Item2.Add(int.Parse(linkedID.Value));
             }
         }
+    }
+
+    public bool isSelected = false;
+    public int selectedID = -1;
+    public void LinkNodes(int id1, int id2)
+    {
+        if (isSelected == false)
+            return;
+
+        var data1 = verticesData.Values.Find(x => x.Item1._vertexId == id1);
+        var data2 = verticesData.Values.Find(x => x.Item1._vertexId == id2);
+
+        data1.Item2.Add(id2);
+        data2.Item2.Add(id1);
+
+        isSelected = false;
+        selectedID = -1;
     }
 }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class VertexData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class VertexData : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public int _vertexId;
     public Canvas parentCanvas;
@@ -12,6 +12,8 @@ public class VertexData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     private RectTransform _rectTrans;
     private Vector3 startPosition;
+
+    public UntangleManager uManager;
 
     public RectTransform RectTransform
     {
@@ -48,5 +50,15 @@ public class VertexData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         //    return;
         //else
         //    _rectTrans.position = startPosition;
+    }
+
+    // click event
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button != PointerEventData.InputButton.Right)
+            return;
+
+        if (uManager.isSelected == true)
+            uManager.LinkNodes(_vertexId, uManager.selectedID);
     }
 }
