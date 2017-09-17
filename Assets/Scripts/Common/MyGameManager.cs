@@ -42,6 +42,9 @@ public class MyGameManager {
 
     public void HideAllPopups()
     {
+        if (_popupParent == null)
+            return;
+
         for (int i = 0; i < _popups.Count; ++i)
         {
             Popup_Base pBase = _popups[i];
