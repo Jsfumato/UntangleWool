@@ -35,9 +35,15 @@ public class MyGameManager {
         foreach (var stage in doc.Element("Stages").Elements("Stage"))
             _mapData.Add(new MapData(stage));
 
-        _popupParent = GameObject.Find("Popups").GetComponent<RectTransform>();
+        _popupParent = GameObject.FindObjectOfType<PopupManager>().GetComponent<RectTransform>();
 
-        for (int i = 0; i < _popups.Count; ++i) {
+        HideAllPopups();
+    }
+
+    public void HideAllPopups()
+    {
+        for (int i = 0; i < _popups.Count; ++i)
+        {
             Popup_Base pBase = _popups[i];
             if (pBase != null)
                 pBase.Hide();
@@ -46,8 +52,6 @@ public class MyGameManager {
 
         foreach (Transform go in _popupParent.transform)
             GameObject.DestroyImmediate(go.gameObject);
-
-
     }
 
     public T ShowPopup<T>() where T : Popup_Base
@@ -77,6 +81,7 @@ public class MyGameManager {
             return;
 
         SceneManager.LoadScene(2, LoadSceneMode.Single);
+        HideAllPopups();
     }
 
     public void AddVertexMovedCount()
@@ -87,6 +92,7 @@ public class MyGameManager {
     public void LoadMenuScene()
     {
         SceneManager.LoadScene(1, LoadSceneMode.Single);
+        HideAllPopups();
     }
 
     //public void HidePopup(int instanceID)

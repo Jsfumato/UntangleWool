@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114538524939988546}
   - component: {fileID: 114538818447658334}
   - component: {fileID: 114376933539289714}
+  - component: {fileID: 114216172388420966}
   m_Layer: 5
   m_Name: Popup_Clear
   m_TagString: Untagged
@@ -273,6 +274,21 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114216172388420966
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1150822261060828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b8d14b6d5cec64d881e245fa0522e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: {fileID: 114760779129019236}
+  movedCount: {fileID: 114850395161086084}
+  backToMenu: {fileID: 114171054437685698}
+  TryAgain: {fileID: 114367673146900750}
 --- !u!114 &114231314982174938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -323,7 +339,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Next
+  m_Text: Back To Menu
 --- !u!114 &114367673146900750
 MonoBehaviour:
   m_ObjectHideFlags: 1
