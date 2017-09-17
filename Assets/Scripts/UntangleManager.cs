@@ -9,14 +9,17 @@ using System.Linq;
 
 public class UntangleManager : UntangleBase
 {
-    private void Start()
-    {
-        //ImportVerticesData(1001);
-    }
-
     public override void Awake()
     {
         base.Awake();
+
+        curMapData = MyGameManager.Get().selectedMapData;
+        ShowMapData(curMapData);
+    }
+
+    private void Start()
+    {
+        //ImportVerticesData(1001);
     }
 
     public override void Update()

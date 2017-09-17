@@ -17,9 +17,8 @@ public class Scene_Main : MonoBehaviour {
 
     private void Awake() {
         MyGameManager.Get().Initialize();
-        InitMapData();
 
-        SetGridData();
+        SetGridData(MyGameManager.Get().mapData);
     }
 
     public void ToggleStageGrid() {
@@ -33,26 +32,23 @@ public class Scene_Main : MonoBehaviour {
         stageGrid.SetActive(true);
     }
 
-    private void InitMapData()
-    {
-        var data = Resources.Load<TextAsset>("VerticesData");
-        var doc = XDocument.Parse(data.text);
-
-        foreach (var stage in doc.Element("Stages").Elements("Stage"))
-            _mapDataList.Add(new MapData(stage));
-    }
-
-    public void SetGridData()
+    public void SetGridData(List<MapData> mdataList)
     {
         cell.SetActive(false);
         for(int i = 1; i < stageContent.transform.childCount; ++i) {
             Destroy(stageContent.transform.GetChild(i).gameObject);
         }
 
-        foreach (var mdata in _mapDataList) {
+        foreach (var mdata in mdataList) {
             GameObject cloned = Instantiate(cell) as GameObject;
             cloned.SetActive(true);
             cloned.transform.SetParent(stageContent.transform, false);
+
+            cloned.GetComponent<Button>().onClick.RemoveAllListeners();
+            cloned.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                MyGameManager.Get().ShowPopup<Popup_MapPreview>().Initialize(mdata);
+            });
         }
     }
 }
