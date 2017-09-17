@@ -54,7 +54,12 @@ public class UntangleBase : MonoBehaviour {
                 new Vector3(to.x, to.y, -100.0f)
             });
 
-            UpdateEdgeCollider(KVpair.Value);
+            UpdateLineCollider(KVpair.Value);
+            //UpdateEdgeCollider(KVpair.Value);
+            UpdateRigidBody<Rigidbody>(KVpair.Value);
+
+            if (KVpair.Value.GetComponentInChildren<CheckLineCollision>().isCollided == false)
+                KVpair.Value.material = KVpair.Value.GetComponentInChildren<CheckLineCollision>().defaultMaterial;
         }
     }
 
@@ -105,6 +110,11 @@ public class UntangleBase : MonoBehaviour {
         Vector3 from = vertexMap[fromID].RectTransform.position;
         Vector3 to = vertexMap[toID].RectTransform.position;
 
+        if (lineDict.ContainsKey(Tuple.Create(fromID, toID)))
+            return;
+        if (lineDict.ContainsKey(Tuple.Create(toID, fromID)))
+            return;
+
         LineRenderer newLine = Instantiate(dummyLineRenderer) as LineRenderer;
         newLine.transform.SetParent(gameCanvas.transform, false);
         newLine.transform.localPosition = Vector3.zero;
@@ -113,38 +123,60 @@ public class UntangleBase : MonoBehaviour {
 
         lineDict.Add(Tuple.Create(fromID, toID), newLine);
 
-        // Init line collider
-        UpdateEdgeCollider(newLine);
+        UpdateLineCollider(newLine);
+        //UpdateEdgeCollider(newLine);
+        UpdateRigidBody<Rigidbody>(newLine);
     }
 
-    //private void UpdateLineCollider(LineRenderer lineRenderer)
-    //{
-    //    BoxCollider lineCollider = lineRenderer.GetComponentInChildren<BoxCollider>();
-    //    if(lineCollider == null)
-    //        lineCollider = new GameObject("LineCollider").AddComponent<BoxCollider>();
+    private void UpdateLineCollider(LineRenderer lineRenderer)
+    {
+        BoxCollider lineCollider = lineRenderer.GetComponentInChildren<BoxCollider>();
 
-    //    float lineWidth = lineRenderer.endWidth;
-    //    float lineLength = Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1));
-    //    lineCollider.size = new Vector3(lineLength, lineWidth, 1f);
-    //    Vector3 midPoint = (lineRenderer.GetPosition(0) + lineRenderer.GetPosition(1)) / 2;
-    //    lineCollider.transform.localPosition = midPoint;
+        float lineWidth = lineRenderer.endWidth;
+        float lineLength = Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1));
+        lineCollider.size = new Vector3(lineLength, lineWidth, 1f);
+        Vector3 midPoint = (lineRenderer.GetPosition(0) + lineRenderer.GetPosition(1)) / 2;
+        lineCollider.transform.localPosition = midPoint;
 
-    //    float angle = Mathf.Atan2(
-    //        (lineRenderer.GetPosition(1).y - lineRenderer.GetPosition(0).y),
-    //        (lineRenderer.GetPosition(1).x - lineRenderer.GetPosition(0).x));
-    //    angle *= Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(
+            (lineRenderer.GetPosition(1).y - lineRenderer.GetPosition(0).y),
+            (lineRenderer.GetPosition(1).x - lineRenderer.GetPosition(0).x));
+        angle *= Mathf.Rad2Deg;
 
-    //    //angle *= -1;
-    //    lineCollider.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, angle);
+        //angle *= -1;
+        lineCollider.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, angle);
 
-    //    //lineCollider.GetComponent<Collider>().colli
-    //}
+        //lineCollider.GetComponent<Collider>().colli
+    }
 
     private void UpdateEdgeCollider(LineRenderer lineRenderer)
     {
         EdgeCollider2D edgeCollider = lineRenderer.GetComponentInChildren<EdgeCollider2D>();
 
         edgeCollider.points = new Vector2[2] { lineRenderer.GetPosition(0), lineRenderer.GetPosition(1) };
+    }
+
+    private void UpdateRigidBody<T>(LineRenderer lineRenderer) where T : Component
+    {
+        T lineRigidBody = lineRenderer.GetComponentInChildren<T>();
+
+        float lineWidth = lineRenderer.endWidth;
+        float lineLength = Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1));
+
+        lineRigidBody.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(lineLength, lineWidth);
+
+        Vector3 midPoint = (lineRenderer.GetPosition(0) + lineRenderer.GetPosition(1)) / 2;
+        lineRigidBody.gameObject.transform.localPosition = midPoint;
+
+        float angle = Mathf.Atan2(
+            (lineRenderer.GetPosition(1).y - lineRenderer.GetPosition(0).y),
+            (lineRenderer.GetPosition(1).x - lineRenderer.GetPosition(0).x));
+        angle *= Mathf.Rad2Deg;
+
+        //angle *= -1;
+        lineRigidBody.gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle);
+
+        //lineCollider.GetComponent<Collider>().colli
     }
 }
 
