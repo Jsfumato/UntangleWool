@@ -23,6 +23,8 @@ public class MyGameManager {
     public MapData selectedMapData { get { return _selectedMap; } }
     public void Initialize()
     {
+        _mapData.Clear();
+
         var data = Resources.Load<TextAsset>("VerticesData");
         var doc = XDocument.Parse(data.text);
 
@@ -30,10 +32,18 @@ public class MyGameManager {
             _mapData.Add(new MapData(stage));
 
         _popupParent = GameObject.Find("Popups").GetComponent<RectTransform>();
-        foreach(Transform go in _popupParent.transform)
+
+        for (int i = 0; i < _popups.Count; ++i) {
+            Popup_Base pBase = _popups[i];
+            if (pBase != null)
+                pBase.Hide();
+            _popups.Remove(pBase);
+        }
+
+        foreach (Transform go in _popupParent.transform)
             GameObject.DestroyImmediate(go.gameObject);
-        foreach (Popup_Base pBase in _popups)
-            pBase.Hide();
+
+
     }
 
     public T ShowPopup<T>() where T : Popup_Base
@@ -61,6 +71,11 @@ public class MyGameManager {
             return;
 
         SceneManager.LoadScene(2, LoadSceneMode.Single);
+    }
+
+    public void LoadMenuScene()
+    {
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
 
     //public void HidePopup(int instanceID)

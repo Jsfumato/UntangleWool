@@ -17,6 +17,7 @@ public class Popup_Base : MonoBehaviour {
 	}
 
     public virtual void Hide() {
-        GameObject.DestroyImmediate(this.gameObject);
+        if(gameObject != null)
+            GameObject.DestroyImmediate(this.gameObject);
     }
 }
