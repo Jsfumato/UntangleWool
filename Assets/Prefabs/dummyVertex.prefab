@@ -41,6 +41,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _vertexId: 0
+  parentCanvas: {fileID: 0}
+  uManager: {fileID: 0}
 --- !u!114 &114770725545727966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -60,7 +62,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 211f2ffb5cabfaf409da941ef2e4b0d2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3de3737d5599d924f88606ae02c57575, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
