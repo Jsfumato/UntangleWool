@@ -54,7 +54,7 @@ public class UntangleBase : MonoBehaviour {
                 new Vector3(to.x, to.y, -100.0f)
             });
 
-            UpdateLineCollider(KVpair.Value);
+            UpdateEdgeCollider(KVpair.Value);
         }
     }
 
@@ -108,62 +108,43 @@ public class UntangleBase : MonoBehaviour {
         LineRenderer newLine = Instantiate(dummyLineRenderer) as LineRenderer;
         newLine.transform.SetParent(gameCanvas.transform, false);
         newLine.transform.localPosition = Vector3.zero;
-
-        //CapsuleCollider capsule = newLine.gameObject.AddComponent<CapsuleCollider>();
-        //capsule.radius = newLine.startWidth / 2;
-        //capsule.center = Vector3.zero;
-        //capsule.direction = 1;
-
         newLine.SetPositions(new Vector3[] { from, to });
         newLine.useWorldSpace = false;
 
         lineDict.Add(Tuple.Create(fromID, toID), newLine);
 
-
-
         // Init line collider
-        BoxCollider lineCollider = new GameObject("LineCollider").AddComponent<BoxCollider>();
-        lineCollider.transform.SetParent(newLine.transform, false);
-        float lineWidth = newLine.endWidth;
-        float lineLength = Vector3.Distance(newLine.GetPosition(0), newLine.GetPosition(1));
-        // size of collider is set where X is length of line, Y is width of line
-        //z will be how far the collider reaches to the sky
-        lineCollider.size = new Vector3(lineLength, lineWidth, 1f);
-        // get the midPoint
-        Vector3 midPoint = (newLine.GetPosition(0) + newLine.GetPosition(1)) / 2;
-        lineCollider.transform.position = midPoint;
-
-        float angle = Mathf.Atan2(
-            (newLine.GetPosition(1).y - newLine.GetPosition(0).y),
-            (newLine.GetPosition(1).x - newLine.GetPosition(0).x));
-
-        // angle now holds our answer but it's in radians, we want degrees
-        // Mathf.Rad2Deg is just a constant equal to 57.2958 that we multiply by to change radians to degrees
-        angle *= Mathf.Rad2Deg;
-
-        //were interested in the inverse so multiply by -1
-        //angle *= -1;
-        // now apply the rotation to the collider's transform, carful where you put the angle variable
-        // in 3d space you don't wan't to rotate on your y axis
-        lineCollider.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, angle);
+        UpdateEdgeCollider(newLine);
     }
 
-    private void UpdateLineCollider(LineRenderer newLine)
+    //private void UpdateLineCollider(LineRenderer lineRenderer)
+    //{
+    //    BoxCollider lineCollider = lineRenderer.GetComponentInChildren<BoxCollider>();
+    //    if(lineCollider == null)
+    //        lineCollider = new GameObject("LineCollider").AddComponent<BoxCollider>();
+
+    //    float lineWidth = lineRenderer.endWidth;
+    //    float lineLength = Vector3.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1));
+    //    lineCollider.size = new Vector3(lineLength, lineWidth, 1f);
+    //    Vector3 midPoint = (lineRenderer.GetPosition(0) + lineRenderer.GetPosition(1)) / 2;
+    //    lineCollider.transform.localPosition = midPoint;
+
+    //    float angle = Mathf.Atan2(
+    //        (lineRenderer.GetPosition(1).y - lineRenderer.GetPosition(0).y),
+    //        (lineRenderer.GetPosition(1).x - lineRenderer.GetPosition(0).x));
+    //    angle *= Mathf.Rad2Deg;
+
+    //    //angle *= -1;
+    //    lineCollider.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, angle);
+
+    //    //lineCollider.GetComponent<Collider>().colli
+    //}
+
+    private void UpdateEdgeCollider(LineRenderer lineRenderer)
     {
-        BoxCollider lineCollider = newLine.GetComponentInChildren<BoxCollider>();
-        float lineWidth = newLine.endWidth;
-        float lineLength = Vector3.Distance(newLine.GetPosition(0), newLine.GetPosition(1));
-        lineCollider.size = new Vector3(lineLength, lineWidth, 1f);
-        Vector3 midPoint = (newLine.GetPosition(0) + newLine.GetPosition(1)) / 2;
-        lineCollider.transform.localPosition = midPoint;
+        EdgeCollider2D edgeCollider = lineRenderer.GetComponentInChildren<EdgeCollider2D>();
 
-        float angle = Mathf.Atan2(
-            (newLine.GetPosition(1).y - newLine.GetPosition(0).y),
-            (newLine.GetPosition(1).x - newLine.GetPosition(0).x));
-        angle *= Mathf.Rad2Deg;
-
-        //angle *= -1;
-        lineCollider.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, angle);
+        edgeCollider.points = new Vector2[2] { lineRenderer.GetPosition(0), lineRenderer.GetPosition(1) };
     }
 }
 
