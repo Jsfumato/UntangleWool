@@ -29,6 +29,8 @@ public class UntangleBase : MonoBehaviour {
     private int _moveCount = 0;
     public int moveCount { get { return _moveCount; } }
 
+    public bool Initialized = false;
+
     public virtual void Awake()
     {
         Init();
@@ -58,14 +60,15 @@ public class UntangleBase : MonoBehaviour {
             //UpdateEdgeCollider(KVpair.Value);
             UpdateRigidBody<Rigidbody>(KVpair.Value);
 
-            if (KVpair.Value.GetComponentInChildren<CheckLineCollision>().isCollided == false)
-                KVpair.Value.material = KVpair.Value.GetComponentInChildren<CheckLineCollision>().defaultMaterial;
+            //if (KVpair.Value.GetComponentInChildren<CheckLineCollision>().isCollided == false)
+            //    KVpair.Value.material = KVpair.Value.GetComponentInChildren<CheckLineCollision>().defaultMaterial;
         }
     }
 
     public void Init()
     {
         curMapData = new MapData();
+        Initialized = false;
 
         mapDataList.Clear();
         vertexMap.Clear();

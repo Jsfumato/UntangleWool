@@ -44,6 +44,7 @@ public class VertexData : MonoBehaviour, IPointerClickHandler, IBeginDragHandler
     public void OnEndDrag(PointerEventData eventData)
     {
         itemBeingDragged = null;
+        MyGameManager.Get().AddVertexMovedCount();
 
         //if (_rectTrans.position.y > parentCanvas.pixelRect.yMin && _rectTrans.position.y < parentCanvas.pixelRect.yMax
         //    && _rectTrans.position.x > parentCanvas.pixelRect.xMin && _rectTrans.position.x < parentCanvas.pixelRect.xMax)

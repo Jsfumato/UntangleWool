@@ -21,6 +21,10 @@ public class MyGameManager {
     public List<MapData> mapData { get { return _mapData; } }
     private MapData _selectedMap;
     public MapData selectedMapData { get { return _selectedMap; } }
+
+    private int _vertexMovedCount = 0;
+    public int vertexMovedCount { get { return _vertexMovedCount; } }
+
     public void Initialize()
     {
         _mapData.Clear();
@@ -67,10 +71,17 @@ public class MyGameManager {
     public void LoadGameScene(MapData mData)
     {
         _selectedMap = mData;
+        _vertexMovedCount = 0;
+
         if (_selectedMap == null)
             return;
 
         SceneManager.LoadScene(2, LoadSceneMode.Single);
+    }
+
+    public void AddVertexMovedCount()
+    {
+        _vertexMovedCount++;
     }
 
     public void LoadMenuScene()
