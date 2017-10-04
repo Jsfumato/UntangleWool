@@ -22,18 +22,18 @@ public class UntangleManager : UntangleBase
         if (isClear)
             return;
 
-        bool collided = false;
-        foreach (var KVpair in lineDict)
-        {
-            CheckLineCollision checkCol = KVpair.Value.GetComponentInChildren<CheckLineCollision>();
-            collided = collided && checkCol.isCollided;
-        }
+        //bool collided = false;
+        //foreach (var KVpair in lineDict)
+        //{
+        //    CheckLineCollision checkCol = KVpair.Value.GetComponentInChildren<CheckLineCollision>();
+        //    collided = collided && checkCol.isCollided;
+        //}
 
-        if (collided == false && MyGameManager.Get().vertexMovedCount > 0)
-        {
-            isClear = true;
-            MyGameManager.Get().ShowPopup<Popup_Clear>().Initialize(curMapData, MyGameManager.Get().vertexMovedCount);
-        }
+        //if (collided == false && MyGameManager.Get().vertexMovedCount > 0)
+        //{
+        //    isClear = true;
+        //    MyGameManager.Get().ShowPopup<Popup_Clear>().Initialize(curMapData, MyGameManager.Get().vertexMovedCount);
+        //}
     }
 }
 

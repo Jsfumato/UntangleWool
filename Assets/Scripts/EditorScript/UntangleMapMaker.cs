@@ -106,6 +106,16 @@ public class UntangleMapMaker_Editor : Editor
         foreach(MapData data in _uMapMaker.mapDataList) {
             EditorGUILayout.LabelField(data.mapID.ToString());
             if (GUILayout.Button("Apply")) {
+                _uMapMaker.curMapData = new MapData();
+
+                foreach (var vertex in _uMapMaker.vertexMap)
+                    GameObject.DestroyImmediate(vertex.Value.gameObject);
+                _uMapMaker.vertexMap.Clear();
+
+                foreach (var line in _uMapMaker.lineDict)
+                    GameObject.DestroyImmediate(line.Value.gameObject);
+                _uMapMaker.lineDict.Clear();
+
                 _uMapMaker.ShowMapData(data);
             }
         }
