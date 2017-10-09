@@ -53,4 +53,12 @@ public static class ResourceExtensions
 
         return ret;
     }
+
+    public static string GetAttributeString(this XElement element, string AttrName, string defaultValue = "")
+    {
+        if (element.Attribute(AttrName) == null)
+            return defaultValue;
+
+        return element.Attribute(AttrName).Value;
+    }
 }

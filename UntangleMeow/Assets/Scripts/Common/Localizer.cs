@@ -8,6 +8,7 @@ public class Localizer
     private static Localizer _instance;
 
     private TextAsset localizerXml;
+    private Dictionary<string, string> localizerDict = new Dictionary<string, string>();
 
     public Localizer Get()
     {
@@ -21,19 +22,13 @@ public class Localizer
     {
         ImportLocalizerData();
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 
     public void ImportLocalizerData()
     {
-        localizerXml = Resources.Load<TextAsset>("Localizer");
+        localizerXml = Resources.Load<TextAsset>("Strings.xml");
         var doc = XDocument.Parse(localizerXml.text);
 
-        foreach (var stage in doc.Element("Stages").Elements("Stage"))
-            mapDataList.Add(new MapData(stage));
+        foreach (var kvPair in doc.Element("Strings").Elements("Key"))
+            localizerDict.Add(kvPair.GetAttributeString("ID"), kvPair.Value);
     }
 }
