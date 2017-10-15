@@ -18,14 +18,14 @@ public class Scene_Login : MonoBehaviour {
 
     private void Awake()
     {
-        btMain.gameObject.SetActive(false);
-        btMain.GetComponent<Image>().DOFade(0.0f, 0.0f);
+        //btMain.gameObject.SetActive(false);
+        //btMain.GetComponent<Image>().DOFade(0.0f, 0.0f);
 
-        mainBG.rectTransform.DOLocalMoveX(-3160.0f, imgMovingDuration).OnComplete(() =>
-        {
-            btMain.gameObject.SetActive(true);
-            btMain.GetComponent<Image>().DOFade(1.0f, btFadeInDuration);
-        });
+        //mainBG.rectTransform.DOLocalMoveX(-3160.0f, imgMovingDuration).OnComplete(() =>
+        //{
+        //    btMain.gameObject.SetActive(true);
+        //    btMain.GetComponent<Image>().DOFade(1.0f, btFadeInDuration);
+        //});
     }
 
     public void LoadMenuScene()

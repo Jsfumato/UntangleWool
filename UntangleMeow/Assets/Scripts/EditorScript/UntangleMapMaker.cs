@@ -13,14 +13,32 @@ using UnityEditor;
 
 public class UntangleMapMaker : UntangleBase
 {
+    private RectTransform _canvasRectTrans;
+
     public override void Awake()
     {
         base.Awake();
+        _canvasRectTrans = GetComponent<RectTransform>();
+        DestroyAllChildren();
     }
 
     public override void Update()
     {
         base.Update();
+    }
+
+    public void DestroyAllChildren()
+    {
+        for(int i = 0; i < _canvasRectTrans.childCount; ++i)
+            GameObject.Destroy(_canvasRectTrans.GetChild(i).gameObject);
+
+        foreach (var vertex in vertexMap)
+            GameObject.Destroy(vertex.Value.gameObject);
+        vertexMap.Clear();
+
+        foreach (var line in lineDict)
+            GameObject.Destroy(line.Value.gameObject);
+        lineDict.Clear();
     }
 
     public void ImportTotalMapData() {
@@ -105,7 +123,10 @@ public class UntangleMapMaker_Editor : Editor
         GUILayout.Space(30);
         foreach(MapData data in _uMapMaker.mapDataList) {
             EditorGUILayout.LabelField(data.mapID.ToString());
+
+            EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Apply")) {
+                _uMapMaker.DestroyAllChildren();
                 _uMapMaker.curMapData = new MapData();
 
                 foreach (var vertex in _uMapMaker.vertexMap)
@@ -118,6 +139,24 @@ public class UntangleMapMaker_Editor : Editor
 
                 _uMapMaker.ShowMapData(data);
             }
+            if (GUILayout.Button("Delete"))
+            {
+                var xmlData = Resources.Load<TextAsset>("VerticesData");
+                var doc = XDocument.Parse(xmlData.text);
+
+                foreach (var innnerStage in doc.Element("Stages").Elements("Stage"))
+                {
+                    if (innnerStage.GetAttributeLong("ID") != data.mapID)
+                        continue;
+
+                    innnerStage.Remove();
+                    string path = string.Format("{0}/Resources/{1}.xml", Application.dataPath, "VerticesData");
+                    doc.Save(path);
+
+                    _uMapMaker.ImportTotalMapData();
+                }
+            }
+            EditorGUILayout.EndHorizontal();
         }
         GUILayout.Space(30);
 

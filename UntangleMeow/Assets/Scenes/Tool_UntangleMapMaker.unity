@@ -221,6 +221,7 @@ MonoBehaviour:
   dummyLineRenderer: {fileID: 120352638888075106, guid: f650ac99bff25ce41906c7fcf6eed302,
     type: 2}
   gameCanvas: {fileID: 744485514}
+  Initialized: 0
   isSelected: 0
   selectedID: -1
 --- !u!1 &802090700
